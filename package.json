@@ -1,0 +1,30 @@
+{
+  "name": "labelcontainer",
+  "version": "0.0.1",
+  "description": "centralised label container class to store, maintain and retrieve label strings from an UI application",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "27.5.1",
+    "typescript": "4.5.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nordic96/LabelContainer.git"
+  },
+  "keywords": [
+    "React",
+    "Typescript",
+    "Singleton",
+    "Label",
+    "String"
+  ],
+  "author": "Stpehen Ko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nordic96/LabelContainer/issues"
+  },
+  "homepage": "https://github.com/nordic96/LabelContainer#readme"
+}
