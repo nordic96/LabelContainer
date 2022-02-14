@@ -4,9 +4,11 @@
   "description": "centralised label container class to store, maintain and retrieve label strings from an UI application",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc --build"
   },
-  "dependencies": {
+  "engines": { 
+    "npm": "6.0.0",
     "node": "17.4.0"
   },
   "devDependencies": {
