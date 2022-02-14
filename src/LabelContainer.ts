@@ -43,9 +43,17 @@ class LabelContainer {
 
     public getLabel(key: string) {
         try {
-            if (this.page) return this.labels[this.page][this.language][key];    
-            return this.labels.GLOBAL[this.language][key];
+            let label: string;
+            /** If Page & Language Specific Label exists, return this label */
+            if (this.page) label = this.labels[this.page][this.language][key];
+            /** If no page specified in the instnace, return the global label */
+            label = this.labels.GLOBAL[this.language][key];
+
+            /** If both cases above fails to load the label, return the key */
+            if (label) return label;
+            return key;
         } catch (e) {
+            /** Any exception caught from trying the label retrieval, return the key */
             console.debug(e.message);
             return key;
         }
