@@ -5,9 +5,13 @@ import { Labels } from "./types";
  * Centralised Label Container Class to store and retrieve label strings
  */
 class LabelContainer {
+    /** which page the component is located */
     private page: string;
+    /** language preference from the browser (user/local) */
     private language: string;
+    /** labels object to be used to retrieve labels */
     private labels: Labels;
+    /** singleton instance */
     private static instance: LabelContainer;
 
     private constructor () {
@@ -16,6 +20,7 @@ class LabelContainer {
         this.language = language;
     }
 
+    /** Singleton get instance method */
     public static getInstance(): LabelContainer {
         if (!this.instance) {
             this.instance = new LabelContainer();
@@ -23,10 +28,12 @@ class LabelContainer {
         return this.instance;
     }
 
+    /** setter method for labels property */
     public setLabels(labels: Labels) {
         this.labels = labels;
     }
 
+    /** getter method for labels property */
     public getLabels(): Labels {
         return this.labels;
     }
