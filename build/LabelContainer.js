@@ -34,14 +34,28 @@ class LabelContainer {
     getLanguage() {
         return this.language;
     }
+    /** setter method for page */
+    setPage(page) {
+        this.page = page;
+    }
+    /** getter method for page */
+    getPage() {
+        return this.page;
+    }
     getLabel(key) {
         try {
             let label;
+            /** If no page specified in the instnace, return the global label */
+            let lang = 'en';
+            let page = 'GLOBAL';
             /** If Page & Language Specific Label exists, return this label */
             if (this.page)
-                label = this.labels[this.page][this.language][key];
-            /** If no page specified in the instnace, return the global label */
-            label = this.labels.GLOBAL[this.language][key];
+                page = this.page;
+            if (this.language)
+                lang = this.language;
+            if (this.labels[page][lang] === undefined)
+                lang = 'en';
+            label = this.labels[page][lang][key];
             /** If both cases above fails to load the label, return the key */
             if (label)
                 return label;
