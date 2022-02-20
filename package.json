@@ -24,6 +24,9 @@
     "type": "git",
     "url": "git+https://github.com/nordic96/LabelContainer.git"
   },
+  "publishConfig": {
+      "@nordic96:registry": "https://npm.pkg.github.com"
+  },
   "keywords": [
     "React",
     "Typescript",
