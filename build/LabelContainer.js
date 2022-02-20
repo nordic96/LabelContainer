@@ -5,49 +5,49 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @since 14 Feb 2022
  * Centralised Label Container Class to store and retrieve label strings
  */
-class LabelContainer {
-    constructor() {
+var LabelContainer = /** @class */ (function () {
+    function LabelContainer() {
         /** default language set to Eng */
-        let language = 'en';
+        var language = 'en';
         this.language = language;
     }
     /** Singleton get instance method */
-    static getInstance() {
+    LabelContainer.getInstance = function () {
         if (!this.instance) {
             this.instance = new LabelContainer();
         }
         return this.instance;
-    }
+    };
     /** setter method for labels property */
-    setLabels(labels) {
+    LabelContainer.prototype.setLabels = function (labels) {
         this.labels = labels;
-    }
+    };
     /** getter method for labels property */
-    getLabels() {
+    LabelContainer.prototype.getLabels = function () {
         return this.labels;
-    }
+    };
     /** setter method for language property */
-    setLanguage(language) {
+    LabelContainer.prototype.setLanguage = function (language) {
         this.language = language;
-    }
+    };
     /** getter method for language property */
-    getLanguage() {
+    LabelContainer.prototype.getLanguage = function () {
         return this.language;
-    }
+    };
     /** setter method for page */
-    setPage(page) {
+    LabelContainer.prototype.setPage = function (page) {
         this.page = page;
-    }
+    };
     /** getter method for page */
-    getPage() {
+    LabelContainer.prototype.getPage = function () {
         return this.page;
-    }
-    getLabel(key) {
+    };
+    LabelContainer.prototype.getLabel = function (key) {
         try {
-            let label;
+            var label = void 0;
             /** If no page specified in the instnace, return the global label */
-            let lang = 'en';
-            let page = 'GLOBAL';
+            var lang = 'en';
+            var page = 'GLOBAL';
             /** If Page & Language Specific Label exists, return this label */
             if (this.page)
                 page = this.page;
@@ -63,9 +63,11 @@ class LabelContainer {
         }
         catch (e) {
             /** Any exception caught from trying the label retrieval, return the key */
-            console.debug(e.message);
+            if (e instanceof Error)
+                console.debug(e.message);
             return key;
         }
-    }
-}
+    };
+    return LabelContainer;
+}());
 exports.default = LabelContainer;

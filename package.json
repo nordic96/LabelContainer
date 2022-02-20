@@ -2,10 +2,11 @@
   "name": "labelcontainer",
   "version": "0.0.2",
   "description": "centralised label container class to store, maintain and retrieve label strings from an UI application",
-  "main": "index.js",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
     "test": "jest",
-    "build": "tsc --build"
+    "build": "tsc"
   },
   "engines": {
     "npm": "6.0.0",

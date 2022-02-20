@@ -74,9 +74,9 @@ class LabelContainer {
             /** If both cases above fails to load the label, return the key */
             if (label) return label;
             return key;
-        } catch (e) {
+        } catch (e: unknown) {
             /** Any exception caught from trying the label retrieval, return the key */
-            console.debug(e.message);
+            if (e instanceof Error) console.debug(e.message);
             return key;
         }
     }
