@@ -1,6 +1,6 @@
 {
   "name": "labelcontainer",
-  "version": "0.0.3",
+  "version": "0.0.31",
   "description": "centralised label container class to store, maintain and retrieve label strings from an UI application",
   "main": "build/index.js",
   "types": "build/index.d.ts",
