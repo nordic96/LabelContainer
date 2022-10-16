@@ -44,7 +44,6 @@ var LabelContainer = /** @class */ (function () {
     };
     LabelContainer.prototype.getLabel = function (key) {
         try {
-            var label = void 0;
             /** If no page specified in the instnace, return the global label */
             var lang = 'en';
             var page = 'GLOBAL';
@@ -55,7 +54,7 @@ var LabelContainer = /** @class */ (function () {
                 lang = this.language;
             if (this.labels[page][lang] === undefined)
                 lang = 'en';
-            label = this.labels[page][lang][key];
+            var label = this.labels[page][lang][key];
             /** If both cases above fails to load the label, return the key */
             if (label)
                 return label;

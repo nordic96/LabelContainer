@@ -1,4 +1,4 @@
-import { Labels } from "./types";
+import { Labels } from './types';
 /**
  * @author Stephen Ko
  * @since 14 Feb 2022
