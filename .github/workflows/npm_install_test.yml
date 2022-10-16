@@ -1,0 +1,21 @@
+name: install-test
+run-name: NPM Install and Test
+on:
+  pull_request:
+    types:
+      - opened
+  push:
+    branches:
+      - master
+jobs:
+  install-test:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout Repo Code
+        uses: actions/checkout@v3
+      - name: Setup Node Env
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm i
+      - run: npm test
