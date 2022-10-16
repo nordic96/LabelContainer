@@ -1,11 +1,6 @@
 {
-<<<<<<< Updated upstream
-  "name": "labelcontainer",
-  "version": "0.0.4",
-=======
   "name": "@nordic96/labelcontainer",
-  "version": "0.0.33",
->>>>>>> Stashed changes
+  "version": "0.0.34",
   "description": "centralised label container class to store, maintain and retrieve label strings from an UI application",
   "main": "build/index.js",
   "types": "build/index.d.ts",
