@@ -1,3 +1,3 @@
-import LabelContainer from "./LabelContainer";
+import LabelContainer from './LabelContainer';
 
 export default LabelContainer;

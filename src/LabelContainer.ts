@@ -1,4 +1,4 @@
-import { Labels } from "./types";
+import { Labels } from './types';
 
 /**
  * @author Stephen Ko
@@ -15,9 +15,9 @@ class LabelContainer {
     /** singleton instance */
     private static instance: LabelContainer;
 
-    private constructor () {
+    private constructor() {
         /** default language set to Eng */
-        let language: string = 'en';
+        const language = 'en';
         this.language = language;
     }
 
@@ -61,7 +61,6 @@ class LabelContainer {
 
     public getLabel(key: string) {
         try {
-            let label: string;
             /** If no page specified in the instnace, return the global label */
             let lang = 'en';
             let page = 'GLOBAL';
@@ -69,7 +68,7 @@ class LabelContainer {
             if (this.page) page = this.page;
             if (this.language) lang = this.language;
             if (this.labels[page][lang] === undefined) lang = 'en';
-            label = this.labels[page][lang][key];
+            const label = this.labels[page][lang][key];
 
             /** If both cases above fails to load the label, return the key */
             if (label) return label;
