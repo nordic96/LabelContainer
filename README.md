@@ -1,4 +1,8 @@
-# LabelContainer Class
+# LabelContainer
+![test_workflow](https://github.com/nordic96/LabelContainer/actions/workflows/npm_install_test.yml/badge.svg)
+![npm_publish_workflow](https://github.com/nordic96/LabelContainer/actions/workflows/publish.yml/badge.svg)
+[![npm version](https://badge.fury.io/js/labelcontainer.svg)](https://badge.fury.io/js/labelcontainer)
+
 Centralised Label Storage Class to maintain, retrieve and store labels from your application in an effective and organised manner.
 
 The class requires mainly 3 properties to be initialized to function;
