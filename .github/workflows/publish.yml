@@ -1,0 +1,28 @@
+name: Publish to NPM
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@nordic96'
+      - name: Install dependencies and build 🔧
+        run: npm i && npm run build
+      - name: Version Patch
+        run: npm version patch
+      - name: Commit to Git
+        run: git add *
+      - run: git commit -m 'Patch version in package.json'
+      - run: git push 
+      - name: Publish package on NPM 📦
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

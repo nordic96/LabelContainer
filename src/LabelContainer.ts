@@ -1,7 +1,6 @@
-import { Labels } from "./types";
+import { LabelBlock, Labels, LangLabels } from './types';
 
 /**
- * @author Stephen Ko
  * @since 14 Feb 2022
  * Centralised Label Container Class to store and retrieve label strings
  */
@@ -15,16 +14,16 @@ class LabelContainer {
     /** singleton instance */
     private static instance: LabelContainer;
 
-    private constructor () {
-        /** default language set to Eng */
-        let language: string = 'en';
-        this.language = language;
+    private constructor(lang?: string, page?: string) {
+        /** If no page specified in the instnace, return the global label */
+        this.language = lang || 'en';
+        this.page = page || 'GLOBAL';
     }
 
     /** Singleton get instance method */
-    public static getInstance(): LabelContainer {
+    public static getInstance(lang?: string, page?: string): LabelContainer {
         if (!this.instance) {
-            this.instance = new LabelContainer();
+            this.instance = new LabelContainer(lang, page);
         }
         return this.instance;
     }
@@ -59,21 +58,23 @@ class LabelContainer {
         return this.page;
     }
 
-    public getLabel(key: string) {
+    public getLabel(key: string): string {
         try {
-            let label: string;
-            /** If no page specified in the instnace, return the global label */
-            let lang = 'en';
-            let page = 'GLOBAL';
-            /** If Page & Language Specific Label exists, return this label */
-            if (this.page) page = this.page;
-            if (this.language) lang = this.language;
-            if (this.labels[page][lang] === undefined) lang = 'en';
-            label = this.labels[page][lang][key];
-
+            let label = key;
+            let pageLabels: LangLabels = this.labels[this.page];
+            /** Setting LangLabels to Global if page entry does not exist */
+            if (pageLabels === undefined) {
+                pageLabels = this.labels['GLOBAL'];
+            }
+            /** Setting LabelBlock to Eng if language entry does not exist */
+            let labelBlock: LabelBlock = pageLabels[this.language];
+            if (labelBlock === undefined) {
+                labelBlock = pageLabels['en'];
+            }
+            label = labelBlock[key];
             /** If both cases above fails to load the label, return the key */
-            if (label) return label;
-            return key;
+            if (label == undefined) label = key;
+            return label;
         } catch (e: unknown) {
             /** Any exception caught from trying the label retrieval, return the key */
             if (e instanceof Error) console.debug(e.message);
