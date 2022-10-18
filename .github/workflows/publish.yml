@@ -16,12 +16,12 @@ jobs:
           scope: '@nordic96'
       - name: Install dependencies and build 🔧
         run: npm i && npm run build
-      - name: Version Patch
-        run: npm version patch
       - name: Commit to Git
         run: git add *
       - run: git commit -m 'Patch version in package.json'
       - run: git push 
+      - name: Version Patch
+        run: npm version patch
       - name: Publish package on NPM 📦
         run: npm publish
         env:
