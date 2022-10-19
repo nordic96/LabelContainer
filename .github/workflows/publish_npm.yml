@@ -16,7 +16,6 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
-          scope: '@nordic96'
       - name: Install dependencies and build 🔧
         run: npm i && npm run build
       # - name: Version Patch
