@@ -19,10 +19,10 @@ jobs:
           scope: '@nordic96'
       - name: Install dependencies and build 🔧
         run: npm i && npm run build
-      # - name: Commit to Git
-      #   run: |
-      #     git config user.name github-actions
-      #     git config user.email github-actions@github.com
+      - name: Commit to Git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
       #     git commit -am new_version
       #     git push origin HEAD:master
       - name: Version Patch
