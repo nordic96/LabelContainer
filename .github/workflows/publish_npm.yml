@@ -21,6 +21,6 @@ jobs:
       # - name: Version Patch
       #   run: npm version patch
       - name: Publish package on NPM 📦
-        run: npm publish --access public
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
