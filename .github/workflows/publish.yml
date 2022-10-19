@@ -24,7 +24,10 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
       - name: Version Patch
-        run: npm version patch
+        run: |
+          git stash
+          npm version patch
+          git stash pop
       - name: Publish package on NPM 📦
         run: npm publish
         env:
