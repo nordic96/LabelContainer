@@ -1,5 +1,5 @@
 {
-  "name": "@nordic96/labelcontainer",
+  "name": "labelcontainer",
   "version": "0.0.36",
   "description": "centralised label container class to store, maintain and retrieve label strings from an UI application",
   "main": "build/index.js",

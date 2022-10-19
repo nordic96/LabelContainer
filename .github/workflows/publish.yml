@@ -23,8 +23,6 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git commit -am new_version
-          git push
       - name: Version Patch
         run: npm version patch
       - name: Publish package on NPM 📦
