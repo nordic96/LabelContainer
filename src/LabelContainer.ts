@@ -1,85 +1,65 @@
-import { LabelBlock, Labels, LangLabels } from './types';
+import { Labels } from "./types";
+
+const GLOBAL = 'GLOBAL';
+const LANG_EN = 'en';
 
 /**
  * @since 14 Feb 2022
  * Centralised Label Container Class to store and retrieve label strings
  */
 class LabelContainer {
-    /** which page the component is located */
-    private page: string;
-    /** language preference from the browser (user/local) */
-    private language: string;
-    /** labels object to be used to retrieve labels */
-    private labels: Labels;
-    /** singleton instance */
+    private labels: Labels = {};
+    private page = GLOBAL;
+    private language = LANG_EN;
     private static instance: LabelContainer;
 
-    private constructor(lang?: string, page?: string) {
-        /** If no page specified in the instnace, return the global label */
-        this.language = lang || 'en';
-        this.page = page || 'GLOBAL';
+    constructor(initial?: { labels?: Labels, page?: string, language?: string }) {
+        if (initial?.labels) this.labels = initial.labels;
+        if (initial?.page) this.page = initial.page;
+        if (initial?.language) this.language = initial.language;
     }
 
     /** Singleton get instance method */
-    public static getInstance(lang?: string, page?: string): LabelContainer {
+    static getInstance(initial?: { labels?: Labels, page?: string, language?: string }): LabelContainer {
         if (!this.instance) {
-            this.instance = new LabelContainer(lang, page);
+            this.instance = new LabelContainer(initial);
         }
         return this.instance;
     }
 
-    /** setter method for labels property */
-    public setLabels(labels: Labels): void {
-        this.labels = labels;
+    setLabels(labels: Labels) { this.labels = labels; }
+    setPage(page: string) { this.page = page; }
+    setLanguage(lang: string) { this.language = lang };
+
+    /**
+     * Label Extraction function
+     * @param key Label key user wish to extract the label from labels storage
+     * @returns desired value from the key provided to the labels storage
+     */
+    getLabel(key: string): string {
+        const pageBlock = this.labels[this.page] ?? this.labels[GLOBAL];
+        const langBlock = pageBlock?.[this.language] ?? pageBlock?.[LANG_EN];
+        return langBlock?.[key] ?? key;
     }
 
-    /** getter method for labels property */
-    public getLabels(): Labels {
-        return this.labels;
+    /**
+     * Helper function to check if label exists
+     * @param key Label Key user wish to check if exists in labels storage
+     * @returns true if key exists
+     */
+    hasLabel(key: string): boolean {
+        const pageBlock = this.labels[this.page] ?? this.labels[GLOBAL];
+        const langBlock = pageBlock?.[this.language] ?? pageBlock?.[LANG_EN];
+        return !!langBlock?.[key];
     }
 
-    /** setter method for language property */
-    public setLanguage(language: string): void {
-        this.language = language;
-    }
-
-    /** getter method for language property */
-    public getLanguage(): string {
-        return this.language;
-    }
-
-    /** setter method for page */
-    public setPage(page: string): void {
-        this.page = page;
-    }
-
-    /** getter method for page */
-    public getPage(): string {
-        return this.page;
-    }
-
-    public getLabel(key: string): string {
-        try {
-            let label = key;
-            let pageLabels: LangLabels = this.labels[this.page];
-            /** Setting LangLabels to Global if page entry does not exist */
-            if (pageLabels === undefined) {
-                pageLabels = this.labels['GLOBAL'];
-            }
-            /** Setting LabelBlock to Eng if language entry does not exist */
-            let labelBlock: LabelBlock = pageLabels[this.language];
-            if (labelBlock === undefined) {
-                labelBlock = pageLabels['en'];
-            }
-            label = labelBlock[key];
-            /** If both cases above fails to load the label, return the key */
-            if (label == undefined) label = key;
-            return label;
-        } catch (e: unknown) {
-            /** Any exception caught from trying the label retrieval, return the key */
-            if (e instanceof Error) console.debug(e.message);
-            return key;
-        }
+    /**
+     * Helper function to return a list of languages set in labels
+     * @type {string[]}
+     * @returns languages as string array
+     */
+    getAllLanguages(): string[] {
+        return Object.keys(this.labels) || [];
     }
 }
 
