@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - master
+      - develop
 jobs:
   install-test:
     runs-on: ubuntu-18.04
