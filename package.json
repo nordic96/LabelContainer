@@ -1,11 +1,11 @@
 {
   "name": "labelcontainer",
-  "version": "0.0.36",
-  "description": "centralised label container class to store, maintain and retrieve label strings from an UI application",
+  "version": "1.0.0",
+  "description": "A lightweight centralized label management utility for TypeScript/JavaScript applications",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "build": "tsc"
   },
   "devDependencies": {
