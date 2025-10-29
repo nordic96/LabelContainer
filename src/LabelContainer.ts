@@ -28,8 +28,22 @@ class LabelContainer {
     }
 
     setLabels(labels: Labels) { this.labels = labels; }
+    
+    /**
+     * @type {string}
+     * @returns currently set page 
+     */
+    getPage(): string { return this.page; };
+    
     setPage(page: string) { this.page = page; }
-    setLanguage(lang: string) { this.language = lang };
+
+    /**
+     * @type {string}
+     * @returns currently set language from the Labelcontainer instance
+     */
+    getLanguage(): string { return this.language; }
+
+    setLanguage(lang: string) { this.language = lang; };
 
     /**
      * Label Extraction function
@@ -59,7 +73,11 @@ class LabelContainer {
      * @returns languages as string array
      */
     getAllLanguages(): string[] {
-        return Object.keys(this.labels) || [];
+        const languages = new Set<string>();
+        Object.values(this.labels).forEach((pageBlock) => {
+            Object.keys(pageBlock).forEach((lang) => languages.add(lang));
+        });
+        return Array.from(languages);
     }
 }
 

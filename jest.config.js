@@ -2,7 +2,7 @@
  * For a detailed explanation regarding each configuration property, visit:
  * https://jestjs.io/docs/configuration
  */
-
+/**@returns {Promise<import('jest').Config>} */
 module.exports = {
     // All imported modules in your tests should be mocked automatically
     // automock: false,
@@ -91,12 +91,6 @@ module.exports = {
 
     // An enum that specifies notification mode. Requires { notify: true }
     // notifyMode: "failure-change",
-
-    // A preset that is used as a base for Jest's configuration
-    presets: [
-        ['@babel/preset-env', { targets: { node: 'current' } }],
-        '@babel/preset-typescript',
-    ],
 
     // Run tests from one or more projects
     // projects: undefined,
