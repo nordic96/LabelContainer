@@ -2,12 +2,7 @@ name: install-test
 run-name: NPM Install and Test
 on:
   pull_request:
-    types:
-      - opened
-  push:
-    branches:
-      - master
-      - develop
+    branches: [ master, develop ]
 jobs:
   install-test:
     runs-on: ubuntu-18.04
