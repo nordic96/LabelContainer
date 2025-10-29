@@ -4,81 +4,181 @@
 ![npm_publish_workflow](https://github.com/nordic96/LabelContainer/actions/workflows/publish_npm.yml/badge.svg)
 [![npm version](https://badge.fury.io/js/labelcontainer.svg)](https://badge.fury.io/js/labelcontainer)
 
-Centralised Label Storage Class to maintain, retrieve and store labels from your application in an effective and organised manner.
+A lightweight **centralized label management utility** for TypeScript/JavaScript applications.  
+LabelContainer provides a structured way to **store, retrieve, and localize UI labels** across your app using a simple API and a built-in fallback mechanism.
 
-The class requires mainly 3 properties to be initialized to function;
+---
 
-1. `Labels` object which stores all labels
-1. `page` to indicate which page the application is showing
-1. `language` to indicate the configured language for enabling the application to support in multi-languages
+## ✨ Features
 
-## 1. Labels
-### 1.1 Structure
-A `Labels` type follows a two-layered Map structure, where the first layer is to categorize labels by a page (i.e. Home, details, search page) of your application.
+- 🧩 **Centralized label storage** — manage all text labels in one place  
+- 🌐 **Multi-language support** — organize translations by language  
+- 📄 **Page-level scoping** — manage labels per page or component  
+- 🧠 **Built-in fallbacks** — automatic fallback to `GLOBAL` page or English (`en`) labels  
+- ♻️ **Singleton pattern** — maintain one consistent label state throughout your app  
+- 🧪 **Full TypeScript support** with included types (`Labels`, `LangLabels`, `LabelBlock`)
 
-The second layer is then categorized by the language setting of the label (i.e. `en` refers to labels in English, `sp` in Spanish, .etc)
+---
 
-### 1.2 LabelBlock
-`LabelBlock` is a type which is equivalent to `Record<string, string>`, where each key (label key) simply maps to string labels.
+## 📦 Installation
 
-i.e. `success_msg_a => "Successfully Entered!"`
+```bash
+npm install labelcontainer
+# or
+yarn add labelcontainer
+```
 
-### 1.3 LangLabels (Language Label Blocks)
-`LangLabels` is a type which is equivalent to `Record<string, LabelBlock>`, where each key is a langauge, and it maps to each `LabelBlock` (refer to 1.2)
+## 🧠 Core Concepts
 
-> [IMPT] It is highly recommended to have a default entry with English labels ('en') as a fallback.
+### 1. Labels Structure
 
-### 1.4 Example & Usage
-A pre-defined `Labels` object is required prior to use LabelContainer class. Refer to the example code below.
+`Labels` follow a two-level nested map:
+
+1. First layer → groups labels by page (e.g. `HOME`, `DETAILS`, `SEARCH`)
+1. Second layer → groups labels by language code (e.g. `en`, `fr`, `sp`)
+
+Each language block (`LabelBlock`) is a simple object mapping label keys to string values.
+
 ```typescript
 import { Labels } from 'labelcontainer/build/types';
+
 export const LABELS: Labels = {
-    GLOBAL: {
-        en: {
-            title: "Test Title",
-            card_msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque quis tempus lectus.",
-        },
-        sp: {
-            title: "Título de la Prueba",
-            card_msg: "De lo que le pasó a Don Quijote con su sobrina y con
-su ama",
-        },
+  GLOBAL: {
+    en: {
+      title: "Test Title",
+      card_msg: "Lorem ipsum dolor sit amet.",
     },
-    PAGE_A: {
-        en: {
-            title: "Page A Title",
-        },
+    sp: {
+      title: "Título de la Prueba",
+      card_msg: "Mensaje de ejemplo.",
     },
+  },
+  PAGE_A: {
+    en: {
+      title: "Page A Title",
+      button_text: "Submit",
+    },
+  },
 };
+
 ```
 
-## 2. Page & Language
-You can simply define the page and language using the pre-defined setter methods, `setLanguage(lang)` and `setPage(page)`
+> Tip: Always include English (en) as a fallback language to ensure coverage.
+
+
+## ⚙️ Initialization
+
+Since LabelContainer is a singleton, you only initialize it once:
 
 ```typescript
-LabelContainer.setLanguage('en'); /** Language setting set to English (en)*/
-LabelContainer.setPage('page_a'); /** User is currently at Page A*/
-```
+import LabelContainer from 'labelcontainer';
+import { LABELS } from './labels';
 
-## 3. Label Retrieval & Usage
-LabelContainer follows a Singleton pattern, hence we would need to get the instance by calling `getInstance()`, followed by setting the predefined `Labels` object from 1.2.
+const labelInstance = LabelContainer.getInstance({
+  labels: LABELS,
+  page: 'PAGE_A',
+  language: 'en',
+});
+```
+Subsequent calls to getInstance() will return the same instance.
+
+## 🗺️ Page and Language Management
+You can update the current page or language anytime:
 
 ```typescript
-const labelInstance: LabelContainer = LabelContainer.getInstance();
-labelInstance.setLabels(LABELS);
+labelInstance.setPage('PAGE_A');
+labelInstance.setLanguage('sp');
+
+console.log(labelInstance.getPage());      // "PAGE_A"
+console.log(labelInstance.getLanguage());  // "sp"
+
 ```
 
-Now, we can simply call `getLabel(key)` to retrieve the labels we want to load from the `Labels` object. Refer to the example code below;
+## 💬 Retrieving Labels
+To fetch a label string, use:
 
 ```typescript
-/**
- * Currently Page is now at A, and language is set to 'en' 
- */
-labelInstance.getLabel('title'); /** returns "Page A Title" */
+labelInstance.getLabel('title'); // → "Título de la Prueba"
 ```
 
-There are few important behaviours of `getLabel(key)` function to take note of. Fallback cases will activate if provided page, language or label key is invalid or not found from the configured `Labels` object, and it will return `key`.
+### Fallback Behavior
 
-1. If page entry does not exist, function will look out for entry named `GLOBAL`
-1. If provided language is undefined or not found in labels, function will look out for entry named `en` (English label blocks)
-1. If both cases above returns undefined labels, function will return the function parameter `key` itself as fallback.
+When retrieving a label, LabelContainer automatically:
+
+1. Falls back to the `GLOBAL` page if the current page is not found.
+1. Falls back to `en` (English) if the requested language doesn’t exist.
+1. Returns the `key` itself if the label cannot be found anywhere.
+
+```typescript
+labelInstance.setPage('UNKNOWN_PAGE');
+labelInstance.setLanguage('de');
+labelInstance.getLabel('title'); // → "Test Title" (from GLOBAL → en)
+```
+## 🔍 Checking Label Availability
+
+You can check whether a label exists:
+
+```typescript
+labelInstance.hasLabel('button_text'); // → true
+labelInstance.hasLabel('missing_key'); // → false
+```
+
+## 🌐 Listing All Available Languages
+Retrieve a list of all languages defined across your label set:
+
+```typescript
+labelInstance.getAllLanguages(); 
+// → ['en', 'sp']
+```
+
+## 🧪 Testing
+Unit tests are written in Jest.
+To run them locally:
+
+```typescript
+npm install
+npm test
+```
+
+The test suite covers:
+
+* Singleton behavior
+* Page/language management
+* Label retrieval and fallbacks
+* Label existence and language listing
+
+## 🧱 Type Definitions
+
+| Type         | Description                                                          |
+| ------------ | -------------------------------------------------------------------- |
+| `LabelBlock` | `Record<string, string>` – map of label keys to text                 |
+| `LangLabels` | `Record<string, LabelBlock>` – map of language codes to label blocks |
+| `Labels`     | `Record<string, LangLabels>` – map of pages to language blocks       |
+
+
+## 🧭 Example Usage
+
+```typescript
+import LabelContainer from 'labelcontainer';
+import { LABELS } from './labels';
+
+const labelInstance = LabelContainer.getInstance({ labels: LABELS });
+
+labelInstance.setPage('PAGE_A');
+labelInstance.setLanguage('en');
+
+console.log(labelInstance.getLabel('title')); // "Page A Title"
+
+labelInstance.setLanguage('sp');
+console.log(labelInstance.getLabel('title')); // "Título de la Prueba"
+```
+
+## 🧩 Future Improvements
+
+Planned enhancements for future versions:
+
+* mergeLabels() — merge new label sets dynamically
+* reset() — clear singleton instance for reinitialization (useful in testing or multi-app contexts)
+
+## 📄 License
+> MIT © nordic96
